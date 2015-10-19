@@ -2,9 +2,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
-
-#include <QSerialPort>
-#include <QSerialPortInfo>
+#include "fpgacomm.h"
 
 namespace Ui {
 class MainWindow;
@@ -19,15 +17,20 @@ public:
     ~MainWindow();
 
 private:
-    Ui::MainWindow *ui;
-	QSerialPort *serial;
+	Ui::MainWindow *ui;
+	FPGA_Comm *comm;
 
 private slots:
 	void refreshPortList(); // Aktualisiert Portliste
-	void serialOpenPort(); // Öffnet comport
-	void serialClosePort(); //Schließt Comport
-	void serialWrite(int val); // Schreibt integer auf den Port
-	void serialRead(void); // Holt neue Daten vom seriellen Port ab, wenn verfügbar
+	void commOpenPort(); // Öffnet comport
+	void commClosePort(); // schließt comport
+
+	void led0_commRefresh(int val); // Änderung der Werte in den LEDs
+	void led1_commRefresh(int val);
+	void led2_commRefresh(int val);
+	void led3_commRefresh(int val);
+
+	void newPackage(FPGA_Comm::Package *p); // Neues Paket von der FPGA_Comm Klasse empfangen
 };
 
 #endif // MAINWINDOW_H
