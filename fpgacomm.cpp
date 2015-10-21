@@ -37,6 +37,11 @@ bool FPGA_Comm::openPort(const QString port)
 	}
 }
 
+bool FPGA_Comm::isConnected(void)
+{
+	return serial->isOpen();
+}
+
 void FPGA_Comm::closePort(void)
 {
 	if(serial->isOpen())

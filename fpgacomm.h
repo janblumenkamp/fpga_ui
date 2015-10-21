@@ -13,6 +13,7 @@ public:
 	FPGA_Comm();
 	~FPGA_Comm();
 	bool openPort(const QString port);
+	bool isConnected(void);
 	void setReg(unsigned char reg, unsigned char val);
 	void queryReg(unsigned char reg);
 	void closePort(void);
@@ -29,7 +30,7 @@ public:
 	enum REGISTER {
 		LED0, LED1, LED2, LED3,
 		BUTTONS,
-		TEMP_LSB, TEMP_MSB
+		TEMP_INT, TEMP_DEZI // Ganze Gradzahlen und Nachkommastellen
 	};
 
 private:

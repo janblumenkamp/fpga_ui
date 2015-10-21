@@ -19,6 +19,11 @@ public:
 private:
 	Ui::MainWindow *ui;
 	FPGA_Comm *comm;
+	double temperature; // Aktuelle temperatur
+
+	#define TEMP_VALUES 200 // Temperaturwerte
+	QTimer *timer_tempGraph;
+	QVector<double> temperature_history, temperature_time; // Letzte Temperaturwerte (y Achse) und Zeitwerte (x Achse)
 
 private slots:
 	void refreshPortList(); // Aktualisiert Portliste
@@ -31,6 +36,8 @@ private slots:
 	void led3_commRefresh(int val);
 
 	void newPackage(FPGA_Comm::Package *p); // Neues Paket von der FPGA_Comm Klasse empfangen
+
+	void updateTempGraph(void); // Aktualisieren des Temperaturgraphen
 };
 
 #endif // MAINWINDOW_H

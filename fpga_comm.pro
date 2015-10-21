@@ -8,8 +8,10 @@ DEPENDPATH += .
 INCLUDEPATH += .
 
 # Input
-HEADERS += fpgacomm.h mainwindow.h
+HEADERS += fpgacomm.h mainwindow.h \
+    qcustomplot.h
 FORMS += mainwindow.ui
-SOURCES += fpgacomm.cpp main.cpp mainwindow.cpp
+SOURCES += fpgacomm.cpp main.cpp mainwindow.cpp \
+    qcustomplot.cpp
 
 CONFIG += serialport
