@@ -7,6 +7,8 @@
 #include <QSerialPortInfo>
 #include <qmath.h>
 #include <QTimer>
+#include <vector>
+#include <algorithm>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -27,14 +29,13 @@ MainWindow::MainWindow(QWidget *parent) :
 	}
 	ui->temp_plot->addGraph();
 	ui->temp_plot->graph(0)->setData(temperature_time, temperature_history);
-	ui->temp_plot->xAxis->setRange(-TEMP_VALUES, 0);
 	ui->temp_plot->xAxis->setLabel("t");
+	ui->temp_plot->xAxis->setRange(-TEMP_VALUES, 0);
 	ui->temp_plot->yAxis->setVisible(false); // Die linke Y-Achse soll deaktiviert werden und die recht aktiviert werden (damit die aktuelle Temperatur direkt abgelesen werden kann)
 	ui->temp_plot->yAxis2->setVisible(true);
 	ui->temp_plot->yAxis2->setLabel("Temperatur in" + QString::fromUtf8("°") + "C");
 	ui->temp_plot->setBackground(Qt::transparent);
 	ui->temp_plot->setAttribute(Qt::WA_OpaquePaintEvent, false);
-	ui->temp_plot->
 
     // Verbinde Spinfelder mit Slider:
 	connect(ui->spn_led0, SIGNAL(valueChanged(int)), ui->sld_led0, SLOT(setValue(int)));
@@ -42,7 +43,7 @@ MainWindow::MainWindow(QWidget *parent) :
 	connect(ui->spn_led2, SIGNAL(valueChanged(int)), ui->sld_led2, SLOT(setValue(int)));
 	connect(ui->spn_led3, SIGNAL(valueChanged(int)), ui->sld_led3, SLOT(setValue(int)));
 
-    // Verbinde Slider mit Spinfelder:
+	 // Verbinde Slider mit Spinfelder:
 	connect(ui->sld_led0, SIGNAL(valueChanged(int)), ui->spn_led0, SLOT(setValue(int)));
 	connect(ui->sld_led1, SIGNAL(valueChanged(int)), ui->spn_led1, SLOT(setValue(int)));
 	connect(ui->sld_led2, SIGNAL(valueChanged(int)), ui->spn_led2, SLOT(setValue(int)));
@@ -194,11 +195,9 @@ void MainWindow::newPackage(FPGA_Comm::Package *p)
 			break;
 		case FPGA_Comm::TEMP_INT:
 			temperature = (temperature - qFloor(temperature)) + p->data; // Ändere nur die Ganzzahl vor dem Komma
-			ui->lbl_currTemp->setText(QString("%1").arg(temperature,0,'f',3) + QString::fromUtf8("°") + "C");
 			break;
 		case FPGA_Comm::TEMP_DEZI:
 			temperature = qFloor(temperature) + ((double)p->data / 255);
-			ui->lbl_currTemp->setText(QString("%1").arg(temperature,0,'f',3) + QString::fromUtf8("°") + "C");
 			break;
 		default:
 			break;
@@ -215,17 +214,12 @@ void MainWindow::updateTempGraph(void)
 {
 	if(comm->isConnected())
 	{
-		double temperature_max = -128.0; // Initialisieren mit kleinstmöglichem Wert
-		double temperature_min = 128.0; // Initialisieren mit größtmöglichem Wert
-		for(int i = TEMP_VALUES - 1; i > 0; i--) // Alle Werte um einen nach Links verschieben
-		{
-			if(temperature_history[i] > temperature_max)
-				temperature_max = temperature_history[i];
-			if(temperature_history[i] < temperature_min)
-				temperature_min = temperature_history[i];
-			temperature_history[i] = temperature_history[i - 1];
-		}
-		temperature_history[0] = temperature;
+		using namespace std;
+		double temperature_max = *max_element(temperature_history.begin(), temperature_history.end());
+		double temperature_min = *min_element(temperature_history.begin(), temperature_history.end());
+
+		temperature_history.pop_back();
+		temperature_history.push_front(temperature);
 
 		ui->temp_plot->graph(0)->setData(temperature_time, temperature_history);
 		ui->temp_plot->yAxis2->setRange(temperature_min - 2, temperature_max + 2); // yAxis 2 ist die rechte Y-Achse. yAxis 1 ist deaktiviert, aber alle Werte bezeiehn sich auf diese Achse, wewegen bei beiden die Range eingestellt werden muss

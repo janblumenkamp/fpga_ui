@@ -21,7 +21,7 @@ private:
 	FPGA_Comm *comm;
 	double temperature; // Aktuelle temperatur
 
-	#define TEMP_VALUES 200 // Temperaturwerte
+	#define TEMP_VALUES 300 // Temperaturwerte
 	QTimer *timer_tempGraph;
 	QVector<double> temperature_history, temperature_time; // Letzte Temperaturwerte (y Achse) und Zeitwerte (x Achse)
 

@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>538</width>
-    <height>614</height>
+    <width>885</width>
+    <height>600</height>
    </rect>
   </property>
   <property name="acceptDrops">
@@ -84,17 +84,10 @@
          </property>
         </widget>
        </item>
-       <item row="0" column="2">
-        <widget class="QSpinBox" name="spn_led0">
+       <item row="3" column="2">
+        <widget class="QSpinBox" name="spn_led3">
          <property name="maximum">
           <number>255</number>
-         </property>
-        </widget>
-       </item>
-       <item row="2" column="0">
-        <widget class="QLabel" name="lbl_led2">
-         <property name="text">
-          <string>LED 3:</string>
          </property>
         </widget>
        </item>
@@ -125,60 +118,22 @@
          </property>
         </widget>
        </item>
-       <item row="3" column="2">
-        <widget class="QSpinBox" name="spn_led3">
+       <item row="0" column="2">
+        <widget class="QSpinBox" name="spn_led0">
          <property name="maximum">
           <number>255</number>
          </property>
         </widget>
        </item>
+       <item row="2" column="0">
+        <widget class="QLabel" name="lbl_led2">
+         <property name="text">
+          <string>LED 3:</string>
+         </property>
+        </widget>
+       </item>
       </layout>
      </widget>
-    </item>
-    <item row="0" column="0" colspan="2">
-     <layout class="QGridLayout" name="group_serial">
-      <item row="0" column="1">
-       <widget class="QPushButton" name="btn_refreshPortList">
-        <property name="text">
-         <string>Refresh</string>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="0">
-       <widget class="QComboBox" name="cmb_serialPorts"/>
-      </item>
-      <item row="1" column="0">
-       <widget class="QLabel" name="lbl_state">
-        <property name="text">
-         <string>Status:</string>
-        </property>
-       </widget>
-      </item>
-      <item row="1" column="1">
-       <widget class="QLabel" name="lbl_current_state">
-        <property name="text">
-         <string>Nicht verbunden</string>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="2">
-       <widget class="QPushButton" name="btn_connect">
-        <property name="text">
-         <string>Connect</string>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="3">
-       <widget class="QPushButton" name="btn_disconnect">
-        <property name="enabled">
-         <bool>false</bool>
-        </property>
-        <property name="text">
-         <string>Disconnect</string>
-        </property>
-       </widget>
-      </item>
-     </layout>
     </item>
     <item row="1" column="0">
      <widget class="QGroupBox" name="group_btns">
@@ -254,33 +209,64 @@
       <property name="title">
        <string>Temperatur</string>
       </property>
-      <layout class="QGridLayout" name="gridLayout" rowstretch="0,0" rowminimumheight="0,0">
-       <item row="0" column="0">
-        <widget class="QLabel" name="lbl_temp">
-         <property name="text">
-          <string>Temperatur:</string>
-         </property>
-        </widget>
-       </item>
-       <item row="0" column="1">
-        <widget class="QLabel" name="lbl_currTemp">
-         <property name="text">
-          <string>keine Daten</string>
-         </property>
-        </widget>
-       </item>
+      <layout class="QGridLayout" name="gridLayout" rowstretch="0,1">
        <item row="1" column="0" colspan="2">
         <widget class="QCustomPlot" name="temp_plot" native="true">
          <property name="minimumSize">
           <size>
            <width>0</width>
-           <height>200</height>
+           <height>0</height>
           </size>
          </property>
         </widget>
        </item>
       </layout>
      </widget>
+    </item>
+    <item row="0" column="0" colspan="2">
+     <layout class="QGridLayout" name="group_serial">
+      <item row="0" column="1">
+       <widget class="QPushButton" name="btn_refreshPortList">
+        <property name="text">
+         <string>Refresh</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="0">
+       <widget class="QComboBox" name="cmb_serialPorts"/>
+      </item>
+      <item row="1" column="0">
+       <widget class="QLabel" name="lbl_state">
+        <property name="text">
+         <string>Status:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="1">
+       <widget class="QLabel" name="lbl_current_state">
+        <property name="text">
+         <string>Nicht verbunden</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="2">
+       <widget class="QPushButton" name="btn_connect">
+        <property name="text">
+         <string>Connect</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="3">
+       <widget class="QPushButton" name="btn_disconnect">
+        <property name="enabled">
+         <bool>false</bool>
+        </property>
+        <property name="text">
+         <string>Disconnect</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
     </item>
    </layout>
   </widget>
