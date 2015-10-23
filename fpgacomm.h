@@ -30,7 +30,8 @@ public:
 	enum REGISTER {
 		LED0, LED1, LED2, LED3,
 		BUTTONS,
-		TEMP_INT, TEMP_DEZI // Ganze Gradzahlen und Nachkommastellen
+		TEMP_INT, TEMP_DEZI, // Ganze Gradzahlen und Nachkommastellen
+		RGB_R, RGB_G, RGB_B // RGB LED
 	};
 
 private:

@@ -3,6 +3,8 @@
 
 #include <QMainWindow>
 #include "fpgacomm.h"
+#include "qtcolortriangle.h"
+#include "colorviewer.h"
 
 namespace Ui {
 class MainWindow;
@@ -24,7 +26,6 @@ private:
 	#define TEMP_VALUES 300 // Temperaturwerte
 	QTimer *timer_tempGraph;
 	QVector<double> temperature_history, temperature_time; // Letzte Temperaturwerte (y Achse) und Zeitwerte (x Achse)
-
 private slots:
 	void refreshPortList(); // Aktualisiert Portliste
 	void commOpenPort(); // Öffnet comport
@@ -38,6 +39,8 @@ private slots:
 	void newPackage(FPGA_Comm::Package *p); // Neues Paket von der FPGA_Comm Klasse empfangen
 
 	void updateTempGraph(void); // Aktualisieren des Temperaturgraphen
+
+	void rgb1ColorChanged(const QColor &col); // Farbe geändert
 };
 
 #endif // MAINWINDOW_H

@@ -37,6 +37,9 @@ MainWindow::MainWindow(QWidget *parent) :
 	ui->temp_plot->setBackground(Qt::transparent);
 	ui->temp_plot->setAttribute(Qt::WA_OpaquePaintEvent, false);
 
+	// RGB LED
+	connect(ui->colorTri_rgb1, SIGNAL(colorChanged(QColor)), this, SLOT(rgb1ColorChanged(QColor)));
+
     // Verbinde Spinfelder mit Slider:
 	connect(ui->spn_led0, SIGNAL(valueChanged(int)), ui->sld_led0, SLOT(setValue(int)));
 	connect(ui->spn_led1, SIGNAL(valueChanged(int)), ui->sld_led1, SLOT(setValue(int)));
@@ -111,6 +114,9 @@ void MainWindow::commOpenPort()
 			comm->queryReg(FPGA_Comm::BUTTONS);
 			comm->queryReg(FPGA_Comm::TEMP_INT);
 			comm->queryReg(FPGA_Comm::TEMP_DEZI);
+			comm->queryReg(FPGA_Comm::RGB_R);
+			comm->queryReg(FPGA_Comm::RGB_G);
+			comm->queryReg(FPGA_Comm::RGB_B);
 		}
 		else
 		{
@@ -175,6 +181,7 @@ void MainWindow::newPackage(FPGA_Comm::Package *p)
 {
 	if(p->rw == true) // Schreibzugriff
 	{
+		QColor c;
 		switch (p->reg) {
 		case FPGA_Comm::LED0:
 			ui->spn_led0->setValue(p->data);
@@ -198,6 +205,24 @@ void MainWindow::newPackage(FPGA_Comm::Package *p)
 			break;
 		case FPGA_Comm::TEMP_DEZI:
 			temperature = qFloor(temperature) + ((double)p->data / 255);
+			break;
+		case FPGA_Comm::RGB_R:
+			qDebug() << "red: " << p->data;
+			c = ui->colorTri_rgb1->color();
+			c.setRed(p->data);
+			ui->colorTri_rgb1->setColor(c);
+			break;
+		case FPGA_Comm::RGB_G:
+			qDebug() << "green: " << p->data;
+			c = ui->colorTri_rgb1->color();
+			c.setGreen(p->data);
+			ui->colorTri_rgb1->setColor(c);
+			break;
+		case FPGA_Comm::RGB_B:
+			qDebug() << "blue: " << p->data;
+			c = ui->colorTri_rgb1->color();
+			c.setBlue(p->data);
+			ui->colorTri_rgb1->setColor(c);
 			break;
 		default:
 			break;
@@ -226,4 +251,14 @@ void MainWindow::updateTempGraph(void)
 		ui->temp_plot->yAxis->setRange(temperature_min - 2, temperature_max + 2);
 		ui->temp_plot->replot();
 	}
+}
+
+/*
+ * Slot - der Benutzer hat die Farbe geändert in der Farbauswahl des Farbdreiecks
+ */
+void MainWindow::rgb1ColorChanged(const QColor &col)
+{
+	comm->setReg(FPGA_Comm::RGB_R, col.red());
+	comm->setReg(FPGA_Comm::RGB_G, col.green());
+	comm->setReg(FPGA_Comm::RGB_B, col.blue());
 }

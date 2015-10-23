@@ -9,9 +9,13 @@ INCLUDEPATH += .
 
 # Input
 HEADERS += fpgacomm.h mainwindow.h \
-    qcustomplot.h
+    qcustomplot.h \
+    colorviewer.h \
+    qtcolortriangle.h
 FORMS += mainwindow.ui
 SOURCES += fpgacomm.cpp main.cpp mainwindow.cpp \
-    qcustomplot.cpp
+    qcustomplot.cpp \
+    colorviewer.cpp \
+    qtcolortriangle.cpp
 
 CONFIG += serialport
